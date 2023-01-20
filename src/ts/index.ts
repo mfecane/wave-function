@@ -1,30 +1,33 @@
-import { addEvents, Point, resolvePoint } from './canvas/position'
+import { Callback, graphics } from './canvas/graphics'
+import { TileRenderer } from './canvas/tile-renderer'
+import { Tilemap } from './generators/wave-function-collapse/tilemap'
 
-const canvas = document.createElement('canvas')
-const container = document.querySelector('.container')
-if (!container) {
-  throw new Error('no container')
-}
-container.appendChild(canvas)
-const context = canvas.getContext('2d')
-addEvents(canvas)
+const generateButton = document.querySelector<HTMLDivElement>('#generate')
+let callback: Callback | null = null
 
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
+function generate() {
+	if (callback) {
+		graphics.removeDrawCallback(callback)
+	}
 
-function draw() {
-  const p1: Point = resolvePoint(context, { x: 0, y: 20 })
-  const p2: Point = resolvePoint(context, { x: 20, y: 80 })
+	const tileMap = new Tilemap(64)
+	tileMap.build()
 
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+	const iterationsElement =
+		document.querySelector<HTMLDivElement>('#iterations')
+	iterationsElement.innerText = Number(tileMap.calls).toLocaleString()
 
-  context.fillStyle = 'red'
-  context.fillRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y)
-}
-
-function animate() {
-  draw()
-  requestAnimationFrame(animate)
+	const tileRenderer = new TileRenderer(graphics)
+	callback = function () {
+		tileRenderer.render(tileMap)
+	}
+	graphics.addDrawCallback(callback)
 }
 
-window.addEventListener('load', () => animate())
+window.addEventListener('load', () => {
+	graphics.init()
+	graphics.animate()
+	generate()
+})
+
+generateButton.addEventListener('click', () => generate())

@@ -3,10 +3,42 @@
 @import "common/_vars.scss";
 @import "common/_fonts.scss";
 
+body {
+	font-family: Montserrat;
+}
+
 .container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+}
+
+.gui {
+	min-width: 300px;
+	position: absolute;
+	z-index: 2;
+	right: 20px;
+	top: 20px;
+	background: white;
+	box-shadow: 2px 0px 6px 1px #00000033;
+	padding: 20px;
+	border-radius: 4px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+button {
+	background: rgb(56, 229, 235);
+	padding: 8px 24px;
+	font-size: 1rem;
+	border-radius: 2px;
+	color: rgb(12, 27, 46);
+	font-weight: bolder;
+}
+
+button:hover {
+	background: rgb(99, 236, 240);
 }
