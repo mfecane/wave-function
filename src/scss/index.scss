@@ -1,0 +1,12 @@
+// common
+@import "common/_reset.scss";
+@import "common/_vars.scss";
+@import "common/_fonts.scss";
+
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
